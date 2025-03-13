@@ -10,6 +10,6 @@ Este projeto foi desenvolvido como Trabalho de Conclusão de Curso (TCC) no curs
 - 📱 **Interface responsiva e intuitiva**  
 
 ## 🛠️ Tecnologias Utilizadas
-- **Backend:** Laravel (PHP)  
+- **Backend:** NEXT.JS (JAVA SCRIPT)  
 - **Frontend:** HTML, CSS, JavaScript (com Bootstrap)  
-- **Banco de Dados:** MySQL  
+- **Banco de Dados:** MongoDB  
