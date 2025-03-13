@@ -5,8 +5,8 @@ Este projeto foi desenvolvido como Trabalho de Conclusão de Curso (TCC) no curs
 ## 🚀 Funcionalidades
 - 📈 **Dashboard interativa** com gráficos e relatórios financeiros  
 - 💰 **Acompanhamento do faturamento** diário, semanal e mensal  
-- 📝 **Cadastro e gerenciamento de vendas e despesas**  
-- 📊 **Relatórios financeiros** para tomada de decisões estratégicas  
+- 📝 **Cadastro e gerenciamento de despesas**  
+- 📊 **Relatórios financeiros** para tomada de decisões pessoais estratégicas  
 - 📱 **Interface responsiva e intuitiva**  
 
 ## 🛠️ Tecnologias Utilizadas
