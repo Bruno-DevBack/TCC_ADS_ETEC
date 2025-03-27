@@ -11,5 +11,5 @@ Este projeto foi desenvolvido como Trabalho de Conclusão de Curso (TCC) no curs
 
 ## 🛠️ Tecnologias Utilizadas
 - **Backend:** NEXT.JS (JAVASCRIPT)  
-- **Frontend:** HTML, CSS, JavaScript (com Bootstrap)  
+- **Frontend:** NEXT.JS, HTML, CSS, JavaScript (com Bootstrap)  
 - **Banco de Dados:** MongoDB  
