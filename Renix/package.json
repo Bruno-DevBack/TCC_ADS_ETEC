@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.13.1",
     "mysql2": "^3.14.0",
     "next": "15.2.4",
     "react": "^19.0.0",
