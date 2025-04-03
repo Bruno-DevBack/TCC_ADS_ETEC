@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { type } from 'os';
+import { ref } from 'process';
 
 const bancoSchema = new mongoose.Schema ({
     nome_banco :{
@@ -28,6 +29,11 @@ const bancoSchema = new mongoose.Schema ({
     },
     IR_acima_720_dias: {
         type: Number,
+        required: true,
+    },
+    usuario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Usuario',
         required: true,
     }
 }, {timestamps: true });
