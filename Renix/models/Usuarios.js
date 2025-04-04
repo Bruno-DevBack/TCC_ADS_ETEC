@@ -37,6 +37,7 @@ const usuarioSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    dashboards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Dashboard' }]
 }, { timestamps: true });
 
 // Hash da senha antes de salvar

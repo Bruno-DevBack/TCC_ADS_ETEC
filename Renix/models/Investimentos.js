@@ -1,45 +1,28 @@
-import { timeStamp } from 'console';
 import mongoose from 'mongoose';
-import moongose from 'moongose';
-import { ref } from 'process';
 
-const investimentoSchema = new moongose.Schema({
-
+const investimentoSchema = new mongoose.Schema({
     usuario_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
-        required: true,
-      },
-
-      banco_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Bancos',
-        required: true,
-      },
-
-    valor_investimento: {
-        type: mongoose.Schema.Types.Decimal128,
-        required: true,
+        required: true
     },
-
+    banco_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Banco',
+        required: true
+    },
+    valor_investimento: {
+        type: Number,
+        required: true
+    },
     data_inicio: {
         type: Date,
-        required: true,
+        required: true
     },
-
     data_fim: {
         type: Date,
-        required: true,
-
-        validate: {
-            validator: function (v) {
-                return v >= this.data_inicio;
-            },
-            message: props => `A data de fim (${props.value}) não pode ser anterior à data de inicio`
-        }, 
-    },
+        required: true
+    }
 }, { timestamps: true });
 
-investimentoSchema
-
-export default mongoose.models.Investimento || mongoose.model('Investimento', investimentoSchema)
+export default mongoose.models.Investimento || mongoose.model('Investimento', investimentoSchema);
