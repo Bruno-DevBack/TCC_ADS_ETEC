@@ -1,5 +1,5 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Sobre', href: '#', current: false },
@@ -11,63 +11,53 @@ function classNames(...classes: (string | undefined | null | boolean)[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-
 export default function Home() {
   return (
     <>
-      <Disclosure as="nav" className="bg-whitesmoke-800">
-        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-              {/* Mobile menu button*/}
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md ml-80 text-black-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
-                <span className="absolute -inset-0.5" />
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon aria-hidden="true" className="block size-6 group-data-open:hidden" />
-                <XMarkIcon aria-hidden="true" className="hidden size-6 group-data-open:block" />
-              </DisclosureButton>
+      {/* Navbar */}
+      <Disclosure as="nav" className="bg-white h-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-4 md:px-15 lg:px-8">
+          <div className="flex h-full items-center justify-between">
+
+            {/* Logo (Centralizada no mobile, esquerda no desktop) */}
+            <div className="flex-1 flex justify-center mt-4 sm:justify-start mr-40 sm:mr-25 ">
+              <img src="/1.png" 
+              alt="Renix Investment" 
+              className="h-16 w-auto" />
             </div>
-            <div className="flex mt-15 ml-15 sm:ml-10">
-              <div className="flex shrink-0">
-                <img
-                  alt="Your Company"
-                  src="/1.png"
-                  className="h-58 w-auto"
-                />
-              </div>
-              <div className="hidden sm:mr-8 sm:block">
-                <div className="flex space-x-4">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      aria-current={item.current ? 'page' : undefined}
-                      className={classNames(
-                        item.current ? 'bg-gray-900 text-black' : 'text-black-300 hover:bg-gray-700 hover:text-black',
-                        'rounded-md px-3 py-2 text-lg font-extrabold',
-                      )}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
+
+            {/* Links Desktop */}
+            <div className="hidden sm:flex space-x-8 mt-6">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-black-800 hover:text-black-600 text-lg font-bold"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+
+            {/* Botão Mobile (Ficando sempre na direita) */}
+            <div className="sm:hidden flex-1 flex justify-end">
+              <DisclosureButton className="relative inline-flex items-center justify-end rounded-md p-2 text-gray-600 hover:bg-gray-200 focus:outline-none">
+                <Bars3Icon className="h-6 w-6 block group-data-open:hidden" aria-hidden="true" />
+                <XMarkIcon className="h-6 w-6 hidden group-data-open:block" aria-hidden="true" />
+              </DisclosureButton>
             </div>
           </div>
         </div>
 
-        <DisclosurePanel className="sm:hidden">
-          <div className="space-y-1 px-1 pt-2 pb-3">
+        {/* Menu Mobile */}
+        <DisclosurePanel className="sm:hidden justify-end flex md:ml-115">
+          <div className="space-y-1 px-4 pt-2 pb-3">
             {navigation.map((item) => (
               <DisclosureButton
                 key={item.name}
                 as="a"
                 href={item.href}
-                aria-current={item.current ? 'page' : undefined}
-                className={classNames(
-                  item.current ? 'bg-gray-900 text-black' : 'text-black-300 hover:bg-black-700 hover:text-black',
-                  'block rounded-md px-3 py-2 text-base font-medium',
-                )}
+                className="bg-gray-200 block text-black-800 hover:bg-gray-200 px-3 py-2 rounded-md text-lg font-semibold flex justify-end w-28"
               >
                 {item.name}
               </DisclosureButton>
@@ -75,22 +65,23 @@ export default function Home() {
           </div>
         </DisclosurePanel>
       </Disclosure>
-      <main className="mt-12 sm:px-6 md:px-8 lg:px-12 xl:px-20 2xl:px-32">
-  <div className="mt-12 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
-    <h1 className="text-black font-extrabold mt-30  text-xl sm:text-1xl md:text-3xl lg:text-4xl xl:text-5xl transition-all duration-300 ease-in-out">
-      Faça seu investimento com a <br></br>Renix
-    </h1>
-    <div className="flex justify-center items-center mt-6 sm:mt-8 md:mt-10 lg:mt-12">
-      <button className="bg-[#028264] text-white px-8 py-3 sm:px-6 sm:py-2 rounded transition-all duration-300 ease-in-out">
-        <h1 className="text-white font-extrabold text-lg sm:text-sm md:text-base lg:text-lg">
-          INVESTIR
+
+       {/* Conteúdo principal */}
+       <main className="mt-12 sm:px-6 md:px-8 lg:px-12 xl:px-20 2xl:px-32">
+        <div className="mt-10 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
+        <h1 className="text-black font-extrabold text-2xl mt-20 ml-2 sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl transition-all duration-300 ease-in-out">
+  Faça seu investimento <br></br>com a Renix
         </h1>
-      </button>
-    </div>
-  </div>
-</main>
 
-
+          <div className="flex justify-center items-center mt-6 mr-45 sm:mt-8 md:mt-10 lg:mt-12">
+            <button className="bg-[#028264] text-white px-8 py-3 ml-3 sm:px-6 sm:py-2 rounded transition-all duration-300 ease-in-out">
+              <span className="text-white font-extrabold text-lg sm:text-sm md:text-base lg:text-lg">
+                INVESTIR
+              </span>
+            </button>
+          </div>
+        </div>
+      </main>
     </>
   )
 }
