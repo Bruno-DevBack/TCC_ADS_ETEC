@@ -70,12 +70,12 @@ export default function Page() {
       </Disclosure>
 
       {/* Conteúdo principal */}
-      <main className="pt-28 sm:px-6 md:px-8 lg:px-12 xl:px-20 2xl:px-32">
+      <main className="pt-28 px-4 sm:px-6 lg:px-16 container mx-auto">
         <div className="mt-10 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 ml-2 md:mt-30 lg:mr-1">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 ml-2 md:mt-[120px] lg:mr-1">
             {/* Texto e botão */}
             <div className="flex flex-col items-start gap-4">
-              <h1 className="text-black font-extrabold text-3xl sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl">
+              <h1 className="text-black font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Faça seu investimento <br /> com a Renix
               </h1>
 
@@ -87,11 +87,14 @@ export default function Page() {
             </div>
 
             {/* Imagem ao lado */}
-            <img
-              src="/1.png"
-              alt="Renix Banner"
-              className="w-full max-w-sm h-auto object-contain"
-            />
+            <div className="w-full flex justify-center md:justify-end">
+              <img
+                src="/woman.jpeg"
+                alt="Renix Banner"
+                className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[250px] h-auto object-contain"
+              />
+            </div>
+
           </div>
         </div>
       </main>
