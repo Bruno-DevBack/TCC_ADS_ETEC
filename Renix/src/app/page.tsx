@@ -68,14 +68,13 @@ export default function Page() {
           </>
         )}
       </Disclosure>
-
       {/* Conteúdo principal */}
       <main className="pt-28 px-4 sm:px-6 lg:px-16 container mx-auto">
         <div className="mt-10 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-24">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 ml-2 md:mt-[120px] lg:mr-1">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 ml-2 md:mt-[120px] lg:mr-1">
             {/* Texto e botão */}
             <div className="flex flex-col items-start gap-4">
-              <h1 className="text-black font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+              <h1 className="text-black font-extrabold text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
                 Faça seu investimento <br /> com a Renix
               </h1>
 
@@ -91,13 +90,21 @@ export default function Page() {
               <img
                 src="/woman.jpeg"
                 alt="Renix Banner"
-                className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[250px] h-auto object-contain"
+                className="w-full max-w-[590px] h-auto object-contain"
               />
             </div>
-
           </div>
         </div>
       </main>
+
+      {/* Seção verde fora do container */}
+      <section className="w-full bg-green-700 mt-24 py-12 px-6 sm:px-8 lg:px-16 xl:px-24">
+        <div className="max-w-7xl mx-auto text-white text-center">
+          <h2 className="text-2xl font-semibold">Seção verde</h2>
+          <p className="mt-4 text-base">Alguma coisa</p>
+        </div>
+      </section>
+
     </>
   )
 }
