@@ -1,12 +1,12 @@
 import dbConnect from '../../../lib/dbConnect';
-import Banco from '../../../models/Banco';
+import Banco from '../../../models/Bancos';
 
 export default async function handler(req, res) {
     await dbConnect();
 
     if (req.method === 'GET') {
         try {
-            const bancos = await Banco.find().populate('usuarios_id', 'nome_usuario emai_usuario');
+            const bancos = await Banco.find('nome_banco');
             res.status(200).json(bancos);
         } catch (error) {
             res.status(500).json({ message: 'Erro ao buscar bancos', error: error.message });
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     else if (req.method === 'POST') {
         try {
-            const { nome_banco, IOF_diario, cdi, IR_ate_180_dias, IR_ate_360_dias, IR_ate_720_dias, IR_acima_de_720_dias, usuarios_id } = req.body;
+            const { nome_banco, IOF_diario, cdi, IR_ate_180_dias, IR_ate_360_dias, IR_ate_720_dias, IR_acima_de_720_dias } = req.body;
 
             const novoBanco = new Banco({
                 nome_banco,
@@ -25,7 +25,6 @@ export default async function handler(req, res) {
                 IR_ate_360_dias,
                 IR_ate_720_dias,
                 IR_acima_de_720_dias,
-                usuarios_id
             });
 
             await novoBanco.save();

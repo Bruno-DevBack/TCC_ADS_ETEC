@@ -1,35 +1,34 @@
 import dbConnect from '../../../lib/dbConnect';
 import Usuario from '../../../models/Usuarios';
 import mongoose from 'mongoose';
+import withRateLimit from '../../../lib/withRateLimit';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     await dbConnect();
 
-    const { id } = req.query;
+    const { id, eAdmin } = req.query;
 
     if (req.method === 'GET') {
         try {
-            if (id) {
-                // Se o ID estiver presente, buscar usuário por ID
-                if (!mongoose.Types.ObjectId.isValid(id)) {
-                    return res.status(400).json({ message: 'ID inválido' });
-                }
-
-                const usuario = await Usuario.findById(id);
-                if (!usuario) {
-                    return res.status(404).json({ message: 'Usuário não encontrado' });
-                }
-
-                return res.status(200).json(usuario);
-            } else {
-                // Se não tiver ID, retorna todos os usuários
-                const usuarios = await Usuario.find({});
-                return res.status(200).json(usuarios);
+            if (eAdmin !== 'true') {
+                return res.status(403).json({ message: 'Acesso negado: apenas administradores podem visualizar esses dados' });
             }
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: 'ID inválido' });
+            }
+
+            const usuario = await Usuario.findById(id);
+            if (!usuario) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
+            }
+
+            return res.status(200).json(usuario);
         } catch (error) {
-            return res.status(500).json({ message: 'Erro ao buscar usuário(s)', error });
+            return res.status(500).json({ message: 'Erro ao buscar usuário', error: error.message });
         }
-    } else {
-        res.status(405).json({ message: 'Método não permitido' });
     }
+
+    return res.status(405).json({ message: 'Método não permitido' });
 }
+export default withRateLimit(handler, 10);

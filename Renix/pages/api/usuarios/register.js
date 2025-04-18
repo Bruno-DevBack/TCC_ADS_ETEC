@@ -1,7 +1,8 @@
 import dbConnect from '../../../lib/dbConnect';
 import Usuario from '../../../models/Usuarios';
+import withRateLimit from '../../../lib/withRateLimit';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Método não permitido' });
     }
@@ -34,3 +35,4 @@ export default async function handler(req, res) {
         res.status(500).json({ message: 'Erro ao criar usuário', error: error.message });
     }
 }
+export default withRateLimit(handler, 10);
