@@ -1,7 +1,8 @@
 import dbConnect from '../../../lib/dbConnect';
+import withRateLimit from '../../../lib/withRateLimit';
 import Investimento from '../../../models/Investimento';
 
-export default async function handler(req, res) {
+async function handler(req, res) {
     await dbConnect();
 
     const { id } = req.query;
@@ -32,3 +33,4 @@ export default async function handler(req, res) {
 
     res.status(405).json({ message: 'Método não permitido' });
 }
+export default withRateLimit(handler, 10);
