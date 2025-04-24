@@ -7,7 +7,11 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+<<<<<<< HEAD
     email_usuario: {
+=======
+    emai_usuario: {
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
         type: String,
         required: true,
         unique: true,
@@ -34,7 +38,11 @@ const usuarioSchema = new mongoose.Schema({
     },
     cpf_usuario: {
         type: String,
+<<<<<<< HEAD
         default: null,
+=======
+        required: true,
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
         unique: true,
     },
     dashboards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Dashboard' }]

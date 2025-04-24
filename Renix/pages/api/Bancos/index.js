@@ -15,7 +15,11 @@ export default async function handler(req, res) {
 
     else if (req.method === 'POST') {
         try {
+<<<<<<< HEAD
             const { nome_banco, IOF_diario, cdi, IR_ate_180_dias, IR_ate_360_dias, IR_ate_720_dias, IR_acima_720_dias } = req.body;
+=======
+            const { nome_banco, IOF_diario, cdi, IR_ate_180_dias, IR_ate_360_dias, IR_ate_720_dias, IR_acima_de_720_dias } = req.body;
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
 
             const novoBanco = new Banco({
                 nome_banco,
@@ -24,7 +28,11 @@ export default async function handler(req, res) {
                 IR_ate_180_dias,
                 IR_ate_360_dias,
                 IR_ate_720_dias,
+<<<<<<< HEAD
                 IR_acima_720_dias,
+=======
+                IR_acima_de_720_dias,
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
             });
 
             await novoBanco.save();

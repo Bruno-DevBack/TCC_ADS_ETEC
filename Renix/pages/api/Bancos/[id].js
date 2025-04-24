@@ -12,7 +12,11 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
+<<<<<<< HEAD
             const banco = await Banco.findById(id).populate('usuarios_id', 'nome_usuario email_usuario');
+=======
+            const banco = await Banco.findById(id).populate('usuarios_id', 'nome_usuario emai_usuario');
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
             if (!banco) return res.status(404).json({ message: 'Banco não encontrado' });
 
             res.status(200).json(banco);

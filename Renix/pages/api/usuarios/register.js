@@ -9,21 +9,36 @@ async function handler(req, res) {
 
     await dbConnect();
 
+<<<<<<< HEAD
     const { nome_usuario, email_usuario, telefone_usuario, senha_usuario, cpf_usuario, cnpj_usuario } = req.body;
 
     try {
         // Verifica se o usuário já existe
         const usuarioExistente = await Usuario.findOne({ $or: [{ email_usuario }, { cpf_usuario }] });
+=======
+    const { nome_usuario, emai_usuario, telefone_usuario, senha_usuario, cpf_usuario, cnpj_usuario } = req.body;
+
+    try {
+        // Verifica se o usuário já existe
+        const usuarioExistente = await Usuario.findOne({ $or: [{ emai_usuario }, { cpf_usuario }] });
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
         if (usuarioExistente) {
             return res.status(400).json({ message: 'Usuário já cadastrado com este email ou CPF' });
         }
 
         const usuario = new Usuario({
             nome_usuario,
+<<<<<<< HEAD
             email_usuario,
             telefone_usuario,
             senha_usuario,
             cpf_usuario: cpf_usuario || null,
+=======
+            emai_usuario,
+            telefone_usuario,
+            senha_usuario,
+            cpf_usuario,
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
             cnpj_usuario: cnpj_usuario || null,
             eAdmin: false,
             ePremium: false,

@@ -10,7 +10,11 @@ async function handler(req, res) {
 
     if (req.method === 'GET') {
         try {
+<<<<<<< HEAD
             if (eAdmin !== 'false') {
+=======
+            if (eAdmin !== 'true') {
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
                 return res.status(403).json({ message: 'Acesso negado: apenas administradores podem visualizar esses dados' });
             }
 

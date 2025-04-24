@@ -1,9 +1,16 @@
 import dbConnect from '../../../lib/dbConnect';
 import withRateLimit from '../../../lib/withRateLimit';
+<<<<<<< HEAD
 import Investimentos from '../../../models/Investimentos';
 import Dashboard from '../../../models/Dashboard';
 import Banco from '../../../models/Bancos';
 import Usuario from '../../../models/Usuarios';
+=======
+import Investimento from '../../../models/Investimento';
+import Dashboard from '../../../models/Dashboard';
+import Banco from '../../../models/Bancos';
+import Usuario from '../../../models/Usuarios'; // IMPORTANTE: faltava isso
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
 
 async function handler(req, res) {
     await dbConnect();
@@ -13,7 +20,11 @@ async function handler(req, res) {
             const { usuario_id, banco_id, valor_investimento, data_inicio, data_fim } = req.body;
 
             // Criar o novo investimento
+<<<<<<< HEAD
             const novoInvestimento = new Investimentos({
+=======
+            const novoInvestimento = new Investimento({
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
                 usuario_id,
                 banco_id,
                 valor_investimento,
@@ -45,10 +56,13 @@ async function handler(req, res) {
             const valorImposto = rendimentoBruto * impostoRenda;
             const valorLiquido = rendimentoBruto - valorImposto;
 
+<<<<<<< HEAD
             // Calcular percentual de rendimento e valor estimado
             const percentualRendimento = ((rendimentoBruto - valor_investimento) / valor_investimento) * 100;
             const valorEstimado = valorLiquido;
 
+=======
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
             // Criar entrada no Dashboard com nomes
             const novoDashboard = new Dashboard({
                 usuario_id,
@@ -60,9 +74,13 @@ async function handler(req, res) {
                 valor_liquido: parseFloat(valorLiquido.toFixed(2)),
                 dias_corridos: diasCorridos,
                 imposto_renda: parseFloat(valorImposto.toFixed(2)),
+<<<<<<< HEAD
                 IOF: parseFloat(banco.IOF_diario.toFixed(2)),
                 percentual_rendimento: parseFloat(percentualRendimento.toFixed(2)), // Adicionado
                 valor_estimado: parseFloat(valorEstimado.toFixed(2)) // Adicionado
+=======
+                IOF: parseFloat(banco.IOF_diario.toFixed(2))
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
             });
 
             await novoDashboard.save();
