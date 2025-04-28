@@ -15,6 +15,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 const navigation = [
+  { name: 'Login', href: '/auth/login', current: false },
   { name: 'Sobre', href: '#', current: false },
   { name: 'Serviços', href: '#', current: false },
   { name: 'Contato', href: '#', current: false }
