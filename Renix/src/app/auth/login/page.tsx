@@ -68,13 +68,25 @@ export default function ProfilePage() {
           </div>
 
           {/* NÃO TENHO CONTA */}
-          <div className="text-center">
-            <a
-              href="/auth/cadastro"
-              className="text-xs text-[#0e7a63] hover:text-[#0e7a63]/80 transition duration-200 ease-in-out xl:text-base 2xl:text-xl"
-            >
-              Não tem uma conta? Cadastre-se!
-            </a>
+          <div className="grid grid-cols-2 text-center mt-4">
+            <div>
+              <a
+                href="/auth/cadastro"
+                className="text-xs text-[#0e7a63] hover:text-[#0e7a63]/80 transition duration-200 ease-in-out xl:text-sm 2xl:text-base"
+              >
+                Não tem uma conta? Cadastre-se!
+              </a>
+            </div>
+
+            {/* ESQUECI A SENHA */}
+            <div>
+              <a
+                href="/auth/esqueci-senha/c_email"
+                className="text-xs text-[#0e7a63] hover:text-[#0e7a63]/80 transition duration-200 ease-in-out xl:text-sm 2xl:text-base"
+              >
+                Esqueci minha senha
+              </a>
+            </div>
           </div>
         </form>
       </section>
