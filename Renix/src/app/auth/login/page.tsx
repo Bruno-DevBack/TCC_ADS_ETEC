@@ -10,15 +10,15 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0e7a63] flex items-center justify-center">
-      <section className="bg-[#d9d9d9] w-[370px] p-6 rounded flex flex-col items-center shadow-lg">
+    <main className="bg-[#BABABA] min-h-screen flex items-center justify-center sm:bg-[#0e7a63] ">
+      <section className="bg-[#d9d9d9] w-[700px] p-6 rounded flex flex-col items-center shadow-lg sm:w-[420px]">
         {/* Login */}
         <h2 className="text-black font-semibold mb-4 text-center pt-2">
           LOGIN
         </h2>
 
         {/* Formulário */}
-        <form className="w-full text-left space-y-4 m-4">
+        <form className="w-full grid sm:grid-cols-0 mt:grid-cols-0 gap-6 mt-4 lx:text-3xl">
           <div>
             <label
               htmlFor="email"

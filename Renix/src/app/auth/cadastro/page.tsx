@@ -24,7 +24,9 @@ export default function ProfilePage() {
           </h2>
 
         {/* Formulário */}
-        <form className="w-full max-w-[600px] grid grid-cols-2 gap-6 mt-4">
+        <form className="w-full max-w-[600px] grid sm:grid-cols-2 mt:grid-cols-0 gap-6 mt-4">
+
+          {/* EMAIL */}
           <div>
             <label htmlFor="email" className="text-xs font-bold text-black block mb-1">
               E-MAIL:
@@ -36,6 +38,7 @@ export default function ProfilePage() {
             />
           </div>
 
+          {/* ENDEREÇO */}
           <div>
             <label htmlFor="endereco" className="text-xs font-bold text-black block mb-1">
               ENDEREÇO:
@@ -68,6 +71,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
+          {/* NOME */}
           <div>
             <label htmlFor="nome" className="text-xs font-bold text-black block mb-1">
               NOME COMPLETO:
@@ -100,13 +104,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="col-span-1 flex items-center gap-2 mt-4">
-            <input type="checkbox" id="t_priva" className="w-[16px] h-[16px]" />
-            <label htmlFor="t_priva" className="text-xs font-bold text-black">
-              Aceito os termos de uso e a política de privacidade
-            </label>
-          </div>
-
+          {/* CNPJOTO */}
           <div>
             <label htmlFor="cn_cp" className="text-xs font-bold text-black block mb-1">
               CNPJ/CPF:
@@ -118,6 +116,15 @@ export default function ProfilePage() {
             />
           </div>
 
+          {/* CONIRMAR TERMOS */}
+          <div className="col-span-1 flex items-center gap-2 mt-4">
+            <input type="checkbox" id="t_priva" className="w-[16px] h-[16px]" />
+            <label htmlFor="t_priva" className="text-xs font-bold text-black">
+              Aceito os termos de uso e a política de privacidade
+            </label>
+          </div>
+
+          {/* BOTÃO DE CADASTRAR */}
           <div className="pt-3">
             <button
               id="cadastrar"
@@ -128,6 +135,7 @@ export default function ProfilePage() {
           </div>
         </form>
 
+        {/* Link para Login */}
         <div className="text-center mt-10 mb-4">
           <a
             href="/auth/login"
