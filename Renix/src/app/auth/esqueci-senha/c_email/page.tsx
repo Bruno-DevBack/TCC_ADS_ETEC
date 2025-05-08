@@ -8,7 +8,7 @@ export default function ProfilePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // Evita o comportamento padrão do formulário
-    router.push('/auth/esqueci-senha/c_cod'); // Redireciona para a rota desejada
+    router.push('/auth/esqueci-senha/n_senha'); // Redireciona para a rota desejada
   };
 
   return (
