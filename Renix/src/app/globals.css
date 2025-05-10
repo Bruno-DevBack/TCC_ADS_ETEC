@@ -3,9 +3,15 @@
 
 @import "tailwindcss";
 
-body {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
