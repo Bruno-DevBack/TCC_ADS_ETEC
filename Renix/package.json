@@ -11,6 +11,11 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
+<<<<<<< HEAD
+    "lru-cache": "^6.0.0",
+=======
+    "lru-cache": "^11.1.0",
+>>>>>>> 07ea07f0e8c52ab7cc4830bac319bce8d1904dd6
     "mongoose": "^8.13.1",
     "mysql2": "^3.14.0",
     "next": "15.2.4",
