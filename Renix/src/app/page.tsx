@@ -13,6 +13,7 @@ import {
   Cog6ToothIcon,
   PhoneIcon
 } from '@heroicons/react/24/outline'
+import Link from 'next/link';
 
 const navigation = [
   { name: 'Sobre', href: '#', current: false },
@@ -43,7 +44,6 @@ export default function Page() {
         className="bg-white shadow h-20 fixed top-0 left-0 w-full z-50"
       >
         {({ open }) => {
-          // Atualiza estado externo quando o Disclosure abre ou fecha
           if (open !== isOpen) setIsOpen(open)
 
           return (
@@ -133,9 +133,11 @@ export default function Page() {
               <h1 className="text-black font-extrabold text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl">
                 Faça seu investimento <br /> com a Renix
               </h1>
-              <button className="bg-[#028264] text-white px-8 py-3 rounded">
-                <span className="font-extrabold text-lg">INVESTIR</span>
-              </button>
+              <Link href="/proxima-pagina">
+                <button className="bg-[#028264] text-white px-8 py-3 rounded">
+                  <span className="font-extrabold text-lg">INVESTIR</span>
+                </button>
+              </Link>
             </div>
 
             {/* Imagem */}
@@ -196,38 +198,42 @@ export default function Page() {
             />
           </div>
 
-          <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0">
-            <h2 className="text-2xl font-bold text-center">Nosso Time</h2>
-            <p className="mt-4 text-base leading-relaxed text-justify">
-              Nossa equipe é composta por profissionais qualificados e comprometidos em oferecer as melhores soluções
-              para nossos clientes. Trabalhamos de forma colaborativa para proporcionar inovação e excelência em cada
-              projeto que realizamos.
+          <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 flex flex-col items-center">
+            <h2 className="text-2xl font-bold text-center">Sobre Nós</h2>
+            <p className="mt-4 text-base leading-relaxed text-justify max-w-[800px] px-4">
+              <p>
+    Somos um grupo de cinco estudantes do curso técnico em Desenvolvimento de Sistemas, unidos pela paixão por tecnologia, inovação e aprendizado contínuo. Durante nossa formação, tivemos a oportunidade de explorar diversas áreas da programação, e foi a partir disso que surgiu a ideia para o nosso trabalho de conclusão de curso: desenvolver uma aplicação web voltada para a análise de investimentos.
+  </p>
+  <p>
+    Nosso projeto tem como objetivo auxiliar usuários a tomarem decisões financeiras mais conscientes, oferecendo um ambiente simples e funcional para visualizar possíveis retornos com base em diferentes tipos de investimentos, instituições bancárias e cenários econômicos. Combinamos conceitos de front-end, back-end e usabilidade para criar uma plataforma intuitiva, acessível e útil.
+  </p>
+  <p>
+    Ao longo do desenvolvimento, enfrentamos desafios técnicos e práticos que fortaleceram nosso trabalho em equipe, além de aprimorar nossas habilidades com tecnologias modernas do mercado. Esta aplicação representa não apenas a conclusão de uma etapa importante na nossa formação, mas também o início das nossas trajetórias profissionais no mundo da tecnologia e das finanças.
+  </p>
+  <p>
+    Nos dedicamos a cada detalhe deste projeto com muito empenho, buscando sempre entregar algo que realmente agregue valor ao usuário final.
+  </p>
             </p>
           </div>
         </div>
       </section>
 
 
+
       <footer className="bg-white shadow-sm bg-[#028264] shadow">
-    <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
-    </span>
-    <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">About</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline">Contact</a>
-        </li>
-    </ul>
-    </div>
-</footer>
+        <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+          <span className="text-sm text-black-500 sm:text-center black-gray-400">© 2025 <a href="#" className="hover:underline">Renix™</a>. Todos os direitos reservados.
+          </span>
+          <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-black-100 dark:text-black-400 sm:mt-0">
+            <li>
+              <h1 className="me-4 md:me-6">Contato</h1>
+            </li>
+            <li>
+              <a href="#" className="hover:underline me-4 md:me-6">Renixcontact@gmail.com</a>
+            </li>
+          </ul>
+        </div>
+      </footer>
 
     </>
   )
