@@ -12,44 +12,56 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="bg-[#BABABA] min-h-screen flex items-center justify-center sm:bg-[#0e7a63] ">
+    <main className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">
+      <main className="bg-[#BABABA] min-h-screen flex items-center justify-center sm:bg-[#0e7a63] ">
 
-      {/* Container principal */}
-      <section className="bg-[#d9d9d9] w-[700px] p-6 rounded flex flex-col items-center shadow-lg sm:w-[420px] xl:w-[520px] 2xl:w-[620px]">
+        {/* Container principal */}
+        <section className="bg-[#d9d9d9] w-[700px] p-6 rounded flex flex-col items-center shadow-lg sm:w-[420px] xl:w-[520px] 2xl:w-[620px]">
 
-        {/* CONFIRMAR EMAIL */}
-        <h2 className="text-black font-semibold mb-4 text-center pt-2 xl:text-2xl 2xl:text-3xl">
-          CONFIRMAR E-MAIL PARA RECUPERAÇÃO
-        </h2>
+          {/* CONFIRMAR EMAIL */}
+          <h2 className="text-black font-semibold mb-4 text-center pt-2 xl:text-2xl 2xl:text-3xl">
+            CONFIRMAR E-MAIL PARA RECUPERAÇÃO
+          </h2>
 
-        {/* Formulário */}
-        <form className="w-full grid sm:grid-cols-0 mt:grid-cols-0 gap-6 mt-4" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="email"
-              className="text-xs font-bold text-black block mb-1 xl:text-base 2xl:text-xl"
-            >
-              E-MAIL:
-            </label>
-            <input
-              id="email"
-              type="text"
-              className="w-full h-6 px-2 border border-gray-400 rounded text-sm 2xl:text-xl 2xl:h-10 2xl:px-4"
-            />
+          {/* Formulário */}
+          <form className="w-full grid sm:grid-cols-0 mt:grid-cols-0 gap-6 mt-4" onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="email"
+                className="text-xs font-bold text-black block mb-1 xl:text-base 2xl:text-xl"
+              >
+                E-MAIL:
+              </label>
+              <input
+                id="email"
+                type="text"
+                className="w-full h-6 px-2 border border-gray-400 rounded text-sm 2xl:text-xl 2xl:h-10 2xl:px-4"
+              />
+            </div>
+
+            {/* BOTÃO */}
+            <div>
+              <button
+                id="logar"
+                type="submit" // Define o tipo do botão como submit
+                className="border border-[#0e7a63] bg-[#0e7a63] text-white font-bold py-1 px-2 rounded w-full hover:bg-[#0e7a63]/80 transition duration-200 ease-in-out xl:text-xl 2xl:text-3xl"
+              >
+                Confirmar
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+      {/* Footer */}
+      <footer className="bg-white mt-12 shadow-sm">
+        <div className="max-w-screen-xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
+          <span>© 2025 <a href="/" className="hover:underline">Renix™</a>. Todos os direitos reservados.</span>
+          <div className="flex gap-4 mt-2 md:mt-0">
+            <a href="/" className="hover:underline">Sobre</a>
+            <a href="/" className="hover:underline">Contato</a>
           </div>
-
-          {/* BOTÃO */}
-          <div>
-            <button
-              id="logar"
-              type="submit" // Define o tipo do botão como submit
-              className="border border-[#0e7a63] bg-[#0e7a63] text-white font-bold py-1 px-2 rounded w-full hover:bg-[#0e7a63]/80 transition duration-200 ease-in-out xl:text-xl 2xl:text-3xl"
-            >
-              Confirmar
-            </button>
-          </div>
-        </form>
-      </section>
+        </div>
+      </footer>
     </main>
   );
 }
