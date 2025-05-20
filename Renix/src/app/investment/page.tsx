@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Menu, X } from 'lucide-react'; // Ícones importados
 
 const dadosInvestimento = [
   { mes: 'Jan', valor: 1000 },
@@ -23,17 +24,15 @@ export default function Dashboard() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 p-6 z-40 transform transition-transform duration-300 ${menuAberto ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 p-6 z-40 transform transition-transform duration-300 ${menuAberto ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <button onClick={() => setMenuAberto(false)} className="mb-6 text-gray-600 font-bold text-xl">
-          ✕
+          <X size={25} />
         </button>
         <ul className="space-y-4 text-lg">
           <li>
             <button onClick={() => router.push('/investments')} className="hover:text-blue-600">Página Inicial</button>
           </li>
-
         </ul>
       </div>
 
@@ -44,26 +43,25 @@ export default function Dashboard() {
           <div className="flex items-center gap-3">
             <div className="flex items-center space-x-4">
               <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
-                ☰
+                <Menu size={20} />
               </button>
             </div>
             <img src="/logo.png" alt="Logo" className="w-10 h-10" />
             <span className="text-xl text-black font-bold">RENIX</span>
           </div>
-          {/* Botão do menu */}
 
           {/* Usuário */}
           <div className="flex items-center space-x-4">
             <span className="text-md lg:text-lg hidden sm:block">Olá, Nome</span>
-            <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-                        <img src="/avatar.png" alt="Logo" className="w-8 h-8" />
-                    </a>
+            <a href="/profile" target="_blank" rel="noopener noreferrer">
+              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
+            </a>
           </div>
         </nav>
 
         {/* Seção principal */}
         <section className="w-full h-full justify-items-center">
-          <div className="text-2xl mt-5 mb-5 font-bold mt-3">Rendimento</div>
+          <div className="text-2xl mt-5 mb-5 font-bold">Rendimento</div>
 
           <ResponsiveContainer width="75%" height="45%" className={'text-lg'}>
             <LineChart data={dadosInvestimento} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>

@@ -15,7 +15,6 @@ import {
 } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Login', href: '/auth/login', current: false },
   { name: 'Sobre', href: '#', current: false },
   { name: 'Serviços', href: '#', current: false },
   { name: 'Contato', href: '#', current: false }
@@ -44,7 +43,7 @@ export default function Page() {
         className="bg-white shadow h-20 fixed top-0 left-0 w-full z-50"
       >
         {({ open }) => {
-          // Atualiza estado externo quando o Disclosure abre ou fecha
+          //Disclosure para Mobile
           if (open !== isOpen) setIsOpen(open)
 
           return (
@@ -66,7 +65,7 @@ export default function Page() {
                       <a
                         key={item.name}
                         href={item.href}
-                        className="text-black-800 hover:text-black-200 font-extrabold text-lg"
+                        className="text-black-800 hover:text-black-200 font-bold text-lg"
                       >
                         {item.name}
                       </a>
@@ -134,9 +133,10 @@ export default function Page() {
               <h1 className="text-black font-extrabold text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl">
                 Faça seu investimento <br /> com a Renix
               </h1>
-              <button className="bg-[#028264] text-white px-8 py-3 rounded">
+              <a href="/login" className="bg-[#028264] text-white px-8 py-3 rounded inline-block">
                 <span className="font-extrabold text-lg">INVESTIR</span>
-              </button>
+              </a>
+
             </div>
 
             {/* Imagem */}
@@ -189,6 +189,7 @@ export default function Page() {
       {/* Seção Branca fora do container */}
       <section className="w-full bg-white">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between">
+          {/* Imagem */}
           <div className="w-full md:w-1/2">
             <img
               src="/equipe.png"
@@ -197,38 +198,30 @@ export default function Page() {
             />
           </div>
 
-          <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0">
-            <h2 className="text-2xl font-bold text-center">Nosso Time</h2>
-            <p className="mt-4 text-base leading-relaxed text-justify">
-              Nossa equipe é composta por profissionais qualificados e comprometidos em oferecer as melhores soluções
-              para nossos clientes. Trabalhamos de forma colaborativa para proporcionar inovação e excelência em cada
-              projeto que realizamos.
+          {/* Texto */}
+          <div className="w-full md:w-1/2 px-4 mt-8 md:mt-0 ">
+            <h2 className="text-2xl font-bold text-center flex justify-center md:text-left">Nosso Time</h2>
+            <p className="w-[90%] mt-4 text-base leading-relaxed text-justify mx-auto md:mx-0">
+              Somos uma equipe formada por cinco alunos dedicados da ETEC de Guarulhos, unidos pelo propósito de desenvolver um projeto relevante e aplicável como Trabalho de Conclusão de Curso (TCC). Ao longo do nosso percurso acadêmico, compartilhamos aprendizados, desafios e conquistas, e este projeto representa o ápice dessa jornada.
+
+              Nosso TCC tem como foco o gerenciamento e a análise de investimentos, uma área cada vez mais essencial no cenário financeiro atual. Com ele, buscamos oferecer uma ferramenta e um conteúdo que ajude pessoas e empresas a tomarem decisões mais conscientes e estratégicas sobre onde e como investir.
+
+              Nosso compromisso com a qualidade, a clareza e a utilidade do trabalho reflete não apenas nossa formação técnica, mas também nossa paixão pelo conhecimento e pela inovação.
             </p>
           </div>
         </div>
       </section>
 
 
-      <footer className="bg-white shadow-sm bg-[#028264] shadow">
-    <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" className="hover:underline">Flowbite™</a>. All Rights Reserved.
-    </span>
-    <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">About</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-        </li>
-        <li>
-            <a href="#" className="hover:underline">Contact</a>
-        </li>
-    </ul>
-    </div>
-</footer>
+      <footer className="bg-white mt-12 shadow-sm">
+        <div className="max-w-screen-lg mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
+          <span>© 2025 <a href="/" className="hover:underline">Renix™</a>. Todos os direitos reservados.</span>
+          <div className="flex gap-4 mt-2 md:mt-0">
+            <a href="/" className="hover:underline">Sobre</a>
+            <a href="/" className="hover:underline">Contato</a>
+          </div>
+        </div>
+      </footer>
 
     </>
   )

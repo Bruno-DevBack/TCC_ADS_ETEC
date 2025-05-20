@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Menu } from 'lucide-react';
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
@@ -22,9 +23,9 @@ export default function ProfilePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">
+      {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 p-6 z-40 transform transition-transform duration-300 ${menuAberto ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 p-6 z-40 transform transition-transform duration-300 ${menuAberto ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <button onClick={() => setMenuAberto(false)} className="mb-6 text-gray-600 font-bold text-xl">
           ✕
@@ -35,69 +36,69 @@ export default function ProfilePage() {
           </li>
         </ul>
       </div>
+
       {/* Navbar */}
-      <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-3">
+<nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center space-x-4">
+              <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
+                <Menu size={20} />
+              </button>
+            </div>
+            <img src="/logo.png" alt="Logo" className="w-10 h-10" />
+            <span className="text-xl text-black font-bold">RENIX</span>
+          </div>
+
+          {/* Usuário */}
           <div className="flex items-center space-x-4">
-            <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
-              ☰
-            </button>
+            <span className="text-md hidden sm:block">Olá, Nome</span>
+            <a href="/profile" target="_blank" rel="noopener noreferrer">
+              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
+            </a>
           </div>
-          <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-          <span className="text-xl text-black font-bold">RENIX</span>
-        </div>
-        {/* Botão do menu */}
+        </nav>
 
-        {/* Usuário */}
-        <div className="flex items-center space-x-4">
-          <span className="text-md lg:text-lg hidden sm:block">Olá, Nome</span>
-          <a href="/profile" target="_blank" rel="noopener noreferrer">
-            <img src="/avatar.png" alt="Logo" className="w-8 h-8" />
-          </a>
-        </div>
-      </nav>
-      <div className="min-h-screen bg-[#0e7a63] flex items-center justify-center bg-gray-50" >
-        <div className="shadow-md bg-[#d9d9d9] w-[350px] p-6 rounded flex flex-col items-center shadow-lg">
-          <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-2 overflow-hidden">
-            <img src="/avatar.png" alt="Avatar" className="w-20 h-20 object-cover" />
+      {/* Perfil */}
+      <main className="flex-1 flex items-center justify-center py-10 px-4 bg-gray-50">
+        <div className="w-full max-w-sm bg-white rounded-2xl shadow-md p-6 flex flex-col items-center space-y-6">
+          <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden border border-gray-300">
+            <img src="/avatar.png" alt="Avatar" className="w-full h-full object-cover" />
           </div>
 
-          <h2 className="text-black text-xl font-semibold mb-4 border-t border-gray-400 w-full text-center pt-2">
-            {user?.name || 'Nome'}
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-900">{user?.name || 'Nome do Usuário'}</h2>
 
-          <div className="w-full text-left space-y-4">
+          <div className="w-full space-y-4 text-sm">
             <div>
-              <label className="text-sm font-bold text-black block mb-1">NOME COMPLETO:</label>
-              <p className="w-full h-6 px-2 bg-white border border-gray-400 rounded text-sm flex items-center">
+              <label className="text-gray-600 font-medium block mb-1">Nome completo</label>
+              <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
                 {user?.name || 'Carregando...'}
-              </p>
+              </div>
             </div>
 
             <div>
-              <label className="text-sm font-bold text-black block mb-1">EMAIL:</label>
-              <p className="w-full h-6 px-2 bg-white border border-gray-400 rounded text-sm flex items-center">
+              <label className="text-gray-600 font-medium block mb-1">E-mail</label>
+              <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
                 {user?.email || 'Carregando...'}
-              </p>
+              </div>
             </div>
 
             <div>
-              <label className="text-sm font-bold text-black block mb-1">SENHA:</label>
-              <p className="w-full h-6 px-2 bg-white border border-gray-400 rounded text-sm flex items-center">
+              <label className="text-gray-600 font-medium block mb-1">Senha</label>
+              <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
                 ********
-              </p>
-            </div>
-
-            <div className="flex justify-center items-center pt-2">
-              <Link href="/proxima-pagina">
-                <button className="bg-[#028264] text-white px-8 py-3 rounded flex items-center justify-center">
-                  <span className="font-bold text-sm">EDITAR</span>
-                </button>
-              </Link>
+              </div>
             </div>
           </div>
+
+          <Link href="/profileedit">
+            <button className="bg-[#028264] hover:bg-[#026953] transition-colors text-white font-semibold px-10 py-2 rounded-xl mt-4 shadow-md">
+              EDITAR
+            </button>
+          </Link>
         </div>
-      </div>
+      </main>
+
+      {/* Rodapé */}
       <footer className="bg-white mt-12 shadow-sm">
         <div className="max-w-screen-xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
           <span>© 2025 <a href="/" className="hover:underline">Renix™</a>. Todos os direitos reservados.</span>
