@@ -24,7 +24,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center gap-4">
                     <span className="hidden sm:inline text-gray-600">Olá, Nome</span>
-                    <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+                    <a href="/profile" target="_blank" rel="noopener noreferrer">
                         <img src="/avatar.png" alt="Logo" className="w-8 h-8" />
                     </a>
                 </div>

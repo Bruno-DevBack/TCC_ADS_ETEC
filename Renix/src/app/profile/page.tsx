@@ -12,7 +12,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await fetch('/api/user?id=ID_DO_USUARIO'); // Substitua com ID real
+      const res = await fetch('http://localhost:3333/usuarios/login'); // Substitua com ID real
       if (res.ok) {
         const data = await res.json();
         setUser(data);

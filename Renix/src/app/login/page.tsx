@@ -1,12 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Importa o useRouter do Next.js
 
-export default function ProfilePage() {
-  const [showPassword, setShowPassword] = useState(false);
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
+
+  const router = useRouter(); 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  // Função para validar email
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  // Função para enviar o formulário
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validação no front-end
+    if (!email || !senha) {
+      alert('Preencha todos os campos!');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert('Por favor, insira um email válido.');
+      return;
+    }
+
+    if (senha.length < 6) {
+      alert('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:3333/api/usuarios/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email_usuario: email, senha_usuario: senha }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Erro no login');
+      }
+
+      // Supondo que a API retorne um token em caso de sucesso:
+      const { token } = data;
+      
+      // sessionStorage ou localStorage
+      if (token) {
+        localStorage.setItem('auth_token', token);
+      }
+
+      // Redireciona para a página de dashboard após o login
+      router.push('/investments');
+
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -18,7 +80,7 @@ export default function ProfilePage() {
         </h2>
 
         {/* Formulário */}
-        <form className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* E-MAIL */}
           <div>
             <label
@@ -30,8 +92,11 @@ export default function ProfilePage() {
             <input
               id="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0e7a63] focus:border-transparent transition duration-150"
               placeholder="Digite seu e-mail"
+              required
             />
           </div>
 
@@ -46,9 +111,12 @@ export default function ProfilePage() {
             <div className="relative">
               <input
                 id="senha"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
                 className="w-full px-4 py-3 text-sm border border-gray-300 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0e7a63] focus:border-transparent transition duration-150"
                 placeholder="Digite sua senha"
+                required
               />
               <button
                 type="button"
@@ -63,7 +131,7 @@ export default function ProfilePage() {
           {/* BOTÃO */}
           <div>
             <button
-              id="logar"
+              type="submit" // Definido como 'submit' para enviar o formulário
               className="w-full py-3 rounded-xl bg-[#0e7a63] text-white font-semibold text-sm shadow-md hover:bg-[#0e7a63]/90 transition duration-200"
             >
               Entrar
@@ -88,6 +156,5 @@ export default function ProfilePage() {
         </form>
       </section>
     </main>
-    
   );
 }
