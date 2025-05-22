@@ -7,9 +7,11 @@ import { Menu, Camera } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { atualizarUsuario } from '@/services/usuarioService';
 import api from '@/services/api';
+import Cookies from 'js-cookie';
+import { Usuario } from '@/types';
 
 export default function ProfileEditPage() {
-  const { usuario } = useAuth();
+  const { usuario, setUsuario } = useAuth(); // ADICIONA setUsuario
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState<any>(usuario);
@@ -21,13 +23,17 @@ export default function ProfileEditPage() {
   const [fotoError, setFotoError] = useState('');
 
   useEffect(() => {
-    if (!usuario) {
+    // Sempre pega o usuário da sessionStorage para garantir dados atualizados
+    const atualizarUsuario = () => {
       const sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
       if (sessionUser) setUser(JSON.parse(sessionUser));
-    } else {
-      setUser(usuario);
-    }
-  }, [usuario]);
+    };
+    atualizarUsuario();
+    window.addEventListener('usuarioAtualizado', atualizarUsuario);
+    return () => {
+      window.removeEventListener('usuarioAtualizado', atualizarUsuario);
+    };
+  }, []);
 
   useEffect(() => {
     if (user?.fotoPerfilBase64) setPreview(user.fotoPerfilBase64);
@@ -49,13 +55,17 @@ export default function ProfileEditPage() {
       });
       setUser(res.data);
       sessionStorage.setItem('usuario', JSON.stringify(res.data));
-      if ((res.data as any).fotoPerfilBase64) setPreview((res.data as any).fotoPerfilBase64);
-      setMensagem('Dados atualizados com sucesso!');
-      // Atualiza contexto global se existir
+      localStorage.setItem('usuario', JSON.stringify(res.data));
+      Cookies.set('usuario', JSON.stringify(res.data), { expires: 7 });
+      setUsuario(res.data as Usuario); // ATUALIZA CONTEXTO GLOBAL
+      // Força atualização global em todas as abas/componentes
       if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('storage'));
         const event = new Event('usuarioAtualizado');
         window.dispatchEvent(event);
       }
+      if ((res.data as any).fotoPerfilBase64) setPreview((res.data as any).fotoPerfilBase64);
+      setMensagem('Dados atualizados com sucesso!');
       setTimeout(() => router.push('/profile'), 1200);
     } catch (err: any) {
       if (err.response?.status === 409) setMensagem('Este email já está em uso.');
@@ -89,6 +99,14 @@ export default function ProfileEditPage() {
       const res = await api.post(`/usuarios/${user.id}/foto-perfil`, formData);
       setUser(res.data);
       sessionStorage.setItem('usuario', JSON.stringify(res.data));
+      localStorage.setItem('usuario', JSON.stringify(res.data));
+      Cookies.set('usuario', JSON.stringify(res.data), { expires: 7 });
+      setUsuario(res.data as Usuario); // ATUALIZA CONTEXTO GLOBAL
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('storage'));
+        const event = new Event('usuarioAtualizado');
+        window.dispatchEvent(event);
+      }
       setPreview((res.data as any).fotoPerfilBase64 || null);
       setMensagem('Foto atualizada!');
       if (typeof window !== 'undefined') {
@@ -113,6 +131,14 @@ export default function ProfileEditPage() {
       const res = await api.delete(`/usuarios/${user.id}/foto-perfil`);
       setUser(res.data);
       sessionStorage.setItem('usuario', JSON.stringify(res.data));
+      localStorage.setItem('usuario', JSON.stringify(res.data));
+      Cookies.set('usuario', JSON.stringify(res.data), { expires: 7 });
+      setUsuario(res.data as Usuario); // ATUALIZA CONTEXTO GLOBAL
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('storage'));
+        const event = new Event('usuarioAtualizado');
+        window.dispatchEvent(event);
+      }
       setPreview(null);
       setMensagem('Foto removida!');
       if (typeof window !== 'undefined') {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const api = axios.create({
     baseURL: 'http://localhost:3333/api/', // Corrigido: remove /api para bater nas rotas corretas
@@ -6,7 +7,9 @@ const api = axios.create({
 
 // Adiciona o token JWT a cada requisição, se disponível
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+    let token = localStorage.getItem('token')
+        || sessionStorage.getItem('token')
+        || Cookies.get('token');
     if (token) {
         if (!config.headers) {
             config.headers = {};

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import Cookies from 'js-cookie';
 
 export default function ProfilePage() {
   const { usuario } = useAuth();
@@ -13,15 +14,35 @@ export default function ProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Sempre pega o usuário da sessionStorage para garantir dados atualizados
+    // Sempre pega o usuário da sessionStorage/cookie para garantir dados atualizados
     const atualizarUsuario = () => {
-      const sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
+      let sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
+      if (!sessionUser && typeof window !== 'undefined') {
+        sessionUser = Cookies.get('usuario') || null;
+      }
       if (sessionUser) setUser(JSON.parse(sessionUser));
     };
     atualizarUsuario();
     window.addEventListener('usuarioAtualizado', atualizarUsuario);
+    window.addEventListener('storage', atualizarUsuario); // NOVO: escuta mudanças globais
+    // Se não houver usuário na session, tenta pegar do localStorage/cookie (persistência entre reloads)
+    if (!sessionStorage.getItem('usuario')) {
+      const localUser = typeof window !== 'undefined' ? localStorage.getItem('usuario') : null;
+      if (localUser) {
+        sessionStorage.setItem('usuario', localUser);
+        Cookies.set('usuario', localUser, { expires: 7 });
+        setUser(JSON.parse(localUser));
+      } else if (typeof window !== 'undefined') {
+        const cookieUser = Cookies.get('usuario');
+        if (cookieUser) {
+          sessionStorage.setItem('usuario', cookieUser);
+          setUser(JSON.parse(cookieUser));
+        }
+      }
+    }
     return () => {
       window.removeEventListener('usuarioAtualizado', atualizarUsuario);
+      window.removeEventListener('storage', atualizarUsuario);
     };
   }, []); // Corrigido: dependências sempre []
 

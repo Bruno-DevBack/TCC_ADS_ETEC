@@ -3,7 +3,7 @@ import "./globals.css";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 function Sidebar({ menuAberto, setMenuAberto }: { menuAberto: boolean; setMenuAberto: (v: boolean) => void }) {
   const { usuario, logout } = useAuth();
@@ -88,13 +88,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [menuAberto, setMenuAberto] = useState(false);
+  const pathname = usePathname();
+  const hideNavbar = pathname === '/login' || pathname === '/cadastro';
+  const hideSidebar = pathname === '/login' || pathname === '/cadastro';
 
   return (
     <html lang="en">
       <body>
         <AuthProvider>
-          <Sidebar menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
-          <NavbarSession onMenuClick={() => setMenuAberto(true)} />
+          {!hideSidebar && <Sidebar menuAberto={menuAberto} setMenuAberto={setMenuAberto} />}
+          {!hideNavbar && <NavbarSession onMenuClick={() => setMenuAberto(true)} />}
           {children}
         </AuthProvider>
       </body>
