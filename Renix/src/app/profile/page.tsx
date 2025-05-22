@@ -1,25 +1,53 @@
-'use client'
+'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import { Menu } from 'lucide-react'; // Certifique-se de importar o ícone corretamente
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [loading, setLoading] = useState(true);
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+      // Se não houver token, redireciona para login
+      router.push('/login');
+      return;
+    }
+
     const fetchUser = async () => {
-      const res = await fetch('http://localhost:3333/usuarios/login'); // Substitua com ID real
-      if (res.ok) {
+      try {
+        const res = await fetch('http://localhost:3333/usuarios/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Token inválido ou expirado');
+        }
+
         const data = await res.json();
         setUser(data);
+      } catch (err) {
+        console.error("Erro ao carregar dados do usuário:", err);
+        router.push('/login'); // Token inválido → redireciona
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchUser();
-  }, []);
+  }, [router]);
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-screen">Carregando...</div>;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">
@@ -38,25 +66,25 @@ export default function ProfilePage() {
       </div>
 
       {/* Navbar */}
-<nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center space-x-4">
-              <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
-                <Menu size={20} />
-              </button>
-            </div>
-            <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-            <span className="text-xl text-black font-bold">RENIX</span>
-          </div>
-
-          {/* Usuário */}
+      <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-3">
           <div className="flex items-center space-x-4">
-            <span className="text-md hidden sm:block">Olá, Nome</span>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
-              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
-            </a>
+            <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
+              <Menu size={20} />
+            </button>
           </div>
-        </nav>
+          <img src="/logo.png" alt="Logo" className="w-10 h-10" />
+          <span className="text-xl text-black font-bold">RENIX</span>
+        </div>
+
+        {/* Usuário */}
+        <div className="flex items-center space-x-4">
+          <span className="text-md hidden sm:block">Olá, {user?.name || 'Usuário'}</span>
+          <a href="/profile">
+            <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
+          </a>
+        </div>
+      </nav>
 
       {/* Perfil */}
       <main className="flex-1 flex items-center justify-center py-10 px-4 bg-gray-50">
@@ -65,20 +93,20 @@ export default function ProfilePage() {
             <img src="/avatar.png" alt="Avatar" className="w-full h-full object-cover" />
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-900">{user?.name || 'Nome do Usuário'}</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{user?.name}</h2>
 
           <div className="w-full space-y-4 text-sm">
             <div>
               <label className="text-gray-600 font-medium block mb-1">Nome completo</label>
               <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
-                {user?.name || 'Carregando...'}
+                {user?.name}
               </div>
             </div>
 
             <div>
               <label className="text-gray-600 font-medium block mb-1">E-mail</label>
               <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
-                {user?.email || 'Carregando...'}
+                {user?.email}
               </div>
             </div>
 

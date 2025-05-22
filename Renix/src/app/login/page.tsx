@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Importa o useRouter do Next.js
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [showPassword, setShowPassword] = useState(false); 
-
-  const router = useRouter(); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para mensagens de erro
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,52 +23,62 @@ export default function Login() {
   // Função para enviar o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(''); // Limpa a mensagem de erro ao tentar enviar o formulário
 
     // Validação no front-end
     if (!email || !senha) {
-      alert('Preencha todos os campos!');
+      setErrorMessage('Preencha todos os campos!');
       return;
     }
 
     if (!validateEmail(email)) {
-      alert('Por favor, insira um email válido.');
+      setErrorMessage('Por favor, insira um email válido.');
       return;
     }
 
     if (senha.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres.');
+      setErrorMessage('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3333/api/usuarios/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email_usuario: email, senha_usuario: senha }),
-      });
+  const res = await fetch('http://localhost:3333/api/usuarios/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email_usuario: email, senha_usuario: senha }),
+  });
 
-      const data = await res.json();
+console.log('STATUS DA RESPOSTA:', res.status);
+const text = await res.text();
+console.log('TEXTO BRUTO DA RESPOSTA:', text);
 
-      if (!res.ok) {
-        throw new Error(data.message || 'Erro no login');
-      }
+let data;
+try {
+  data = JSON.parse(text);
+  console.log('RESPOSTA PARSEADA:', data);
+} catch (e) {
+  console.error('Erro ao fazer parse do JSON:', e);
+}
 
-      // Supondo que a API retorne um token em caso de sucesso:
-      const { token } = data;
-      
-      // sessionStorage ou localStorage
-      if (token) {
-        localStorage.setItem('auth_token', token);
-      }
 
-      // Redireciona para a página de dashboard após o login
-      router.push('/investments');
+  if (!res.ok) {
+    throw new Error(data.message || 'Erro no login');
+  }
 
-    } catch (error: any) {
-      alert(error.message);
-    }
+  const { token } = data;
+
+  if (token) {
+    localStorage.setItem('auth_token', token);
+    router.push('/investments');
+  } else {
+    throw new Error('Token não retornado pela API.');
+  }
+} catch (error: any) {
+  console.error('Erro durante o login:', error); // 🔍 log de erro
+  setErrorMessage(error.message || 'Erro ao fazer login');
+}
   };
 
   return (
@@ -127,6 +137,11 @@ export default function Login() {
               </button>
             </div>
           </div>
+
+          {/* MENSAGEM DE ERRO */}
+          {errorMessage && (
+            <div className="text-red-500 text-sm">{errorMessage}</div>
+          )}
 
           {/* BOTÃO */}
           <div>
