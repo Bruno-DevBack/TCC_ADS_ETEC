@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importa o useRouter do Next.js
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
+  const [mensagem, setMensagem] = useState('');
 
   const router = useRouter(); 
+  const { login } = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,51 +26,28 @@ export default function Login() {
   // Função para enviar o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setMensagem("");
     // Validação no front-end
     if (!email || !senha) {
-      alert('Preencha todos os campos!');
+      setMensagem('Preencha todos os campos!');
       return;
     }
 
     if (!validateEmail(email)) {
-      alert('Por favor, insira um email válido.');
+      setMensagem('Por favor, insira um email válido.');
       return;
     }
 
     if (senha.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres.');
+      setMensagem('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3333/api/usuarios/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email_usuario: email, senha_usuario: senha }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || 'Erro no login');
-      }
-
-      // Supondo que a API retorne um token em caso de sucesso:
-      const { token } = data;
-      
-      // sessionStorage ou localStorage
-      if (token) {
-        localStorage.setItem('auth_token', token);
-      }
-
-      // Redireciona para a página de dashboard após o login
-      router.push('/investments');
-
+      await login(email, senha);
+      router.push('/profile');
     } catch (error: any) {
-      alert(error.message);
+      setMensagem(error?.response?.data?.message || error.message || 'Erro no login');
     }
   };
 
@@ -127,6 +107,11 @@ export default function Login() {
               </button>
             </div>
           </div>
+
+          {/* MENSAGEM DE FEEDBACK */}
+          {mensagem && (
+            <div className="text-center mt-4 text-sm text-red-600">{mensagem}</div>
+          )}
 
           {/* BOTÃO */}
           <div>

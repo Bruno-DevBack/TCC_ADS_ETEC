@@ -16,19 +16,6 @@ export default function Dashboard() {
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">
-            {/* Navbar */}
-            <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                    <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-                    <span className="text-xl text-black font-bold">RENIX</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <span className="hidden sm:inline text-gray-600">Olá, Nome</span>
-                    <a href="/profile" target="_blank" rel="noopener noreferrer">
-                        <img src="/avatar.png" alt="Logo" className="w-8 h-8" />
-                    </a>
-                </div>
-            </nav>
 
             {/* Conteúdo principal */}
             <main className="flex-grow px-6 py-8">

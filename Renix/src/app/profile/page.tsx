@@ -4,88 +4,51 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const { usuario } = useAuth();
+  const [user, setUser] = useState<any>(usuario);
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch('http://localhost:3333/usuarios/login'); // Substitua com ID real
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-      }
+    // Sempre pega o usuário da sessionStorage para garantir dados atualizados
+    const atualizarUsuario = () => {
+      const sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
+      if (sessionUser) setUser(JSON.parse(sessionUser));
     };
-    fetchUser();
-  }, []);
+    atualizarUsuario();
+    window.addEventListener('usuarioAtualizado', atualizarUsuario);
+    return () => {
+      window.removeEventListener('usuarioAtualizado', atualizarUsuario);
+    };
+  }, []); // Corrigido: dependências sempre []
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">
-      {/* Sidebar */}
-      <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 p-6 z-40 transform transition-transform duration-300 ${menuAberto ? 'translate-x-0' : '-translate-x-full'}`}
-      >
-        <button onClick={() => setMenuAberto(false)} className="mb-6 text-gray-600 font-bold text-xl">
-          ✕
-        </button>
-        <ul className="space-y-4 text-lg">
-          <li>
-            <button onClick={() => router.push('/investments')} className="hover:text-blue-600">Página Inicial</button>
-          </li>
-        </ul>
-      </div>
-
-      {/* Navbar */}
-<nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center space-x-4">
-              <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
-                <Menu size={20} />
-              </button>
-            </div>
-            <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-            <span className="text-xl text-black font-bold">RENIX</span>
-          </div>
-
-          {/* Usuário */}
-          <div className="flex items-center space-x-4">
-            <span className="text-md hidden sm:block">Olá, Nome</span>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
-              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
-            </a>
-          </div>
-        </nav>
 
       {/* Perfil */}
       <main className="flex-1 flex items-center justify-center py-10 px-4 bg-gray-50">
         <div className="w-full max-w-sm bg-white rounded-2xl shadow-md p-6 flex flex-col items-center space-y-6">
           <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden border border-gray-300">
-            <img src="/avatar.png" alt="Avatar" className="w-full h-full object-cover" />
+            <img src={user?.fotoPerfilBase64 ? user.fotoPerfilBase64 : "/avatar.png"} alt="Avatar" className="w-full h-full object-cover" />
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-900">{user?.name || 'Nome do Usuário'}</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{user?.nome_usuario || 'Nome do Usuário'}</h2>
 
           <div className="w-full space-y-4 text-sm">
             <div>
               <label className="text-gray-600 font-medium block mb-1">Nome completo</label>
               <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
-                {user?.name || 'Carregando...'}
+                {user?.nome_usuario || 'Carregando...'}
               </div>
             </div>
 
             <div>
               <label className="text-gray-600 font-medium block mb-1">E-mail</label>
               <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
-                {user?.email || 'Carregando...'}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-gray-600 font-medium block mb-1">Senha</label>
-              <div className="w-full bg-gray-100 p-2 rounded-md border border-gray-300">
-                ********
+                {user?.email_usuario || 'Carregando...'}
               </div>
             </div>
           </div>
