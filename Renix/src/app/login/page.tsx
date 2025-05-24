@@ -45,7 +45,7 @@ export default function Login() {
 
     try {
       await login(email, senha);
-      router.push('/profile');
+      router.push('/investments');
     } catch (error: any) {
       setMensagem(error?.response?.data?.message || error.message || 'Erro no login');
     }

@@ -38,26 +38,6 @@ export default function Dashboard() {
 
       {/* Conteúdo principal */}
       <div className="flex-1 flex flex-col bg-gray-50">
-        {/* Navbar */}
-        <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center space-x-4">
-              <button onClick={() => setMenuAberto(true)} className="text-xl font-bold">
-                <Menu size={20} />
-              </button>
-            </div>
-            <img src="/logo.png" alt="Logo" className="w-10 h-10" />
-            <span className="text-xl text-black font-bold">RENIX</span>
-          </div>
-
-          {/* Usuário */}
-          <div className="flex items-center space-x-4">
-            <span className="text-md lg:text-lg hidden sm:block">Olá, Nome</span>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
-              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full" />
-            </a>
-          </div>
-        </nav>
 
         {/* Seção principal */}
         <section className="w-full h-full justify-items-center">

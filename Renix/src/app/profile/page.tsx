@@ -13,38 +13,54 @@ export default function ProfilePage() {
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    // Sempre pega o usuário da sessionStorage/cookie para garantir dados atualizados
-    const atualizarUsuario = () => {
-      let sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
-      if (!sessionUser && typeof window !== 'undefined') {
-        sessionUser = Cookies.get('usuario') || null;
-      }
-      if (sessionUser) setUser(JSON.parse(sessionUser));
-    };
-    atualizarUsuario();
-    window.addEventListener('usuarioAtualizado', atualizarUsuario);
-    window.addEventListener('storage', atualizarUsuario); // NOVO: escuta mudanças globais
-    // Se não houver usuário na session, tenta pegar do localStorage/cookie (persistência entre reloads)
-    if (!sessionStorage.getItem('usuario')) {
-      const localUser = typeof window !== 'undefined' ? localStorage.getItem('usuario') : null;
-      if (localUser) {
-        sessionStorage.setItem('usuario', localUser);
-        Cookies.set('usuario', localUser, { expires: 7 });
-        setUser(JSON.parse(localUser));
-      } else if (typeof window !== 'undefined') {
-        const cookieUser = Cookies.get('usuario');
-        if (cookieUser) {
-          sessionStorage.setItem('usuario', cookieUser);
-          setUser(JSON.parse(cookieUser));
-        }
+useEffect(() => {
+  const atualizarUsuario = () => {
+    let sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
+    if (!sessionUser && typeof window !== 'undefined') {
+      sessionUser = Cookies.get('usuario') || null;
+    }
+
+    if (sessionUser) {
+      try {
+        const parsed = JSON.parse(sessionUser);
+        const usuarioExtraido = parsed?.data ?? parsed; // usa parsed.data se existir, senão usa o próprio parsed
+        setUser(usuarioExtraido);
+      } catch (error) {
+        console.error('Erro ao analisar os dados do usuário:', error);
       }
     }
-    return () => {
-      window.removeEventListener('usuarioAtualizado', atualizarUsuario);
-      window.removeEventListener('storage', atualizarUsuario);
-    };
-  }, []); // Corrigido: dependências sempre []
+  };
+
+  atualizarUsuario();
+  window.addEventListener('usuarioAtualizado', atualizarUsuario);
+  window.addEventListener('storage', atualizarUsuario);
+
+  // Persistência entre reloads
+  if (!sessionStorage.getItem('usuario')) {
+    const localUser = typeof window !== 'undefined' ? localStorage.getItem('usuario') : null;
+    if (localUser) {
+      sessionStorage.setItem('usuario', localUser);
+      Cookies.set('usuario', localUser, { expires: 7 });
+
+      const parsed = JSON.parse(localUser);
+      const usuarioExtraido = parsed?.data ?? parsed;
+      setUser(usuarioExtraido);
+    } else if (typeof window !== 'undefined') {
+      const cookieUser = Cookies.get('usuario');
+      if (cookieUser) {
+        sessionStorage.setItem('usuario', cookieUser);
+        const parsed = JSON.parse(cookieUser);
+        const usuarioExtraido = parsed?.data ?? parsed;
+        setUser(usuarioExtraido);
+      }
+    }
+  }
+
+  return () => {
+    window.removeEventListener('usuarioAtualizado', atualizarUsuario);
+    window.removeEventListener('storage', atualizarUsuario);
+  };
+}, []); // Corrigido: dependências sempre []
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 font-sans text-gray-800">

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333/api/', // Corrigido: remove /api para bater nas rotas corretas
+    baseURL: 'http://localhost:3333/api', // Corrigido: remove /api para bater nas rotas corretas
 });
 
 // Adiciona o token JWT a cada requisição, se disponível

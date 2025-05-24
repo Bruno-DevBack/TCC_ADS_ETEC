@@ -57,19 +57,41 @@ export const logoutUsuario = (usuario_id: string) => {
   return api.post('/usuarios/logout', { usuario_id });
 };
 
-export const atualizarUsuario = async (idOrData: string | Partial<Usuario>, dataArg?: Partial<Usuario>) => {
+export const atualizarUsuario = async (
+  idOrData: string | Partial<Usuario>,
+  dataArg?: Partial<Usuario>
+) => {
   let id: string | undefined;
   let data: Partial<Usuario>;
+
   if (typeof idOrData === 'string') {
     id = idOrData;
     data = dataArg || {};
   } else {
-    const sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
-    id = sessionUser ? JSON.parse(sessionUser).id : undefined;
+    // Tenta pegar do sessionStorage
+    let sessionUser: Usuario | null = null;
+    if (typeof window !== 'undefined') {
+      const sessionUserStr = sessionStorage.getItem('usuario');
+      if (sessionUserStr) {
+        try {
+          sessionUser = JSON.parse(sessionUserStr);
+        } catch {
+          // Falha ao parsear, ignora
+        }
+      }
+    }
+    id = sessionUser?.id;
     data = idOrData;
   }
-  if (!id) throw new Error('ID do usuário não encontrado na sessão.');
+
+  if (!id) {
+    throw new Error('ID do usuário não encontrado na sessão.');
+  }
+
   const res = await api.put(`/usuarios/${id}`, data);
+
+  // Atualiza sessão e localStorage para manter sincronizado
   persistirUsuarioEToken(res.data);
+
   return res;
 };

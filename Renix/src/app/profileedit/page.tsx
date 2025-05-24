@@ -14,7 +14,12 @@ export default function ProfileEditPage() {
   const { usuario, setUsuario } = useAuth(); // ADICIONA setUsuario
   const [menuAberto, setMenuAberto] = useState(false);
   const router = useRouter();
-  const [user, setUser] = useState<any>(usuario);
+  const [user, setUser] = useState<any>(null);
+ useEffect(() => {
+  if (usuario) {
+    setUser(usuario);
+  }
+}, [usuario]);
   const [mensagem, setMensagem] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(user?.fotoPerfilBase64 || null);
@@ -23,17 +28,18 @@ export default function ProfileEditPage() {
   const [fotoError, setFotoError] = useState('');
 
   useEffect(() => {
-    // Sempre pega o usuário da sessionStorage para garantir dados atualizados
-    const atualizarUsuario = () => {
-      const sessionUser = typeof window !== 'undefined' ? sessionStorage.getItem('usuario') : null;
-      if (sessionUser) setUser(JSON.parse(sessionUser));
-    };
-    atualizarUsuario();
-    window.addEventListener('usuarioAtualizado', atualizarUsuario);
-    return () => {
-      window.removeEventListener('usuarioAtualizado', atualizarUsuario);
-    };
-  }, []);
+  const atualizarUsuarioLocal = () => {
+    const session = sessionStorage.getItem('usuario');
+    if (session) setUser(JSON.parse(session));
+  };
+
+  atualizarUsuarioLocal();
+  window.addEventListener('usuarioAtualizado', atualizarUsuarioLocal);
+  return () => {
+    window.removeEventListener('usuarioAtualizado', atualizarUsuarioLocal);
+  };
+}, []);
+
 
   useEffect(() => {
     if (user?.fotoPerfilBase64) setPreview(user.fotoPerfilBase64);
@@ -45,34 +51,61 @@ export default function ProfileEditPage() {
     setUser((prev: any) => ({ ...prev, [name]: value }));
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setMensagem('');
-    try {
-      const res = await atualizarUsuario(user.id, {
-        nome_usuario: user.nome_usuario,
-        email_usuario: user.email_usuario,
-      });
-      setUser(res.data);
-      sessionStorage.setItem('usuario', JSON.stringify(res.data));
-      localStorage.setItem('usuario', JSON.stringify(res.data));
-      Cookies.set('usuario', JSON.stringify(res.data), { expires: 7 });
-      setUsuario(res.data as Usuario); // ATUALIZA CONTEXTO GLOBAL
-      // Força atualização global em todas as abas/componentes
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new Event('storage'));
-        const event = new Event('usuarioAtualizado');
-        window.dispatchEvent(event);
-      }
-      if ((res.data as any).fotoPerfilBase64) setPreview((res.data as any).fotoPerfilBase64);
-      setMensagem('Dados atualizados com sucesso!');
-      setTimeout(() => router.push('/profile'), 1200);
-    } catch (err: any) {
-      if (err.response?.status === 409) setMensagem('Este email já está em uso.');
-      else if (err.response?.status === 404) setMensagem('Usuário não encontrado.');
-      else setMensagem('Erro ao atualizar dados.');
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setMensagem('');
+
+  console.log('ID:', user?.id);
+  console.log('Nome:', user?.nome_usuario);
+  console.log('Email:', user?.email_usuario);
+
+  if (!user?.id) {
+  setMensagem('Erro interno: usuário sem ID.');
+  return;
+}
+
+
+  try {
+    const res = await atualizarUsuario(user.id, {
+      nome_usuario: user.nome_usuario,
+      email_usuario: user.email_usuario,
+    });
+
+    console.log('Resposta da API:', res.data);
+
+    setUser(res.data);
+    sessionStorage.setItem('usuario', JSON.stringify(res.data));
+    localStorage.setItem('usuario', JSON.stringify(res.data));
+    Cookies.set('usuario', JSON.stringify(res.data), { expires: 7 });
+    setUsuario(res.data as Usuario);
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('storage'));
+      const event = new Event('usuarioAtualizado');
+      window.dispatchEvent(event);
+    }
+
+    if ((res.data as any).fotoPerfilBase64)
+      setPreview((res.data as any).fotoPerfilBase64);
+
+    setMensagem('Dados atualizados com sucesso!');
+    setTimeout(() => router.push('/profile'), 1200);
+
+  } catch (err: any) {
+    console.error('Erro ao atualizar usuário:', err);
+
+    if (err.response?.status === 409) {
+      setMensagem('Este email já está em uso.');
+    } else if (err.response?.status === 404) {
+      setMensagem('Usuário não encontrado.');
+    } else if (err.response?.data?.message) {
+      setMensagem(`Erro: ${err.response.data.message}`);
+    } else {
+      setMensagem('Erro ao atualizar dados. Tente novamente.');
     }
   }
+}
+
 
   // Upload handler
   async function handleFotoChange(e: React.ChangeEvent<HTMLInputElement>) {
